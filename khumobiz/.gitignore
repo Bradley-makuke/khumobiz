@@ -36,3 +36,12 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+#package.jsons
+package.json
+package-lock.json
+khumobiz/package.json
+khumobiz/package-lock.json
+khumobiz/App.js
+khumobiz/index.js
+
