@@ -9,10 +9,21 @@ import {
     Platform,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {supabase} from '../utils/supabase';
 
 
 export default function Login() {
     const navigation = useNavigation();
+
+    AppState.addEventListener('change', (state) => {
+        if (state === 'active'){
+            supabase.auth.startAutoRefresh()
+        }
+        else{
+            supabase.auth.stopAutoRefresh()
+        }
+    })
     
     return (
         <KeyboardAvoidingView
