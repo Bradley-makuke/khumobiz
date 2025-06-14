@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "react-native";
 import { StyleSheet, View, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -9,90 +9,101 @@ import Settings from "./settings";
 import Chatbot from "./chatbot";
 import Notifications from "./notification";
 import Profile from "./profile";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState("home");
 
   const renderContent = () => {
     switch (selectedTab) {
-      case "home": return <Home />;
-      case "settings": return <Settings />;
-      case "chatbot": return <Chatbot />;
-      case "profile": return <Profile />;
-      case "notifications": return <Notifications />;
-      default: return <Home />;
+      case "home":
+        return <Home />;
+      case "settings":
+        return <Settings />;
+      case "chatbot":
+        return <Chatbot />;
+      case "profile":
+        return <Profile />;
+      case "notifications":
+        return <Notifications />;
+      default:
+        return <Home />;
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.mainContent}>
-        {renderContent()}
-      </View>
+    <SafeAreaProvider>
+      <SafeAreaView  style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <View style={styles.mainContent}>{renderContent()}</View>
 
-      <View style={styles.tabsContainer}>
-        <Pressable 
-          style={styles.iconButton} 
-          onPress={() => setSelectedTab("home")}
-        >
-          {selectedTab === "home" && <View style={styles.selected} />}
-          <Ionicons 
-            name="home-outline" 
-            size={28} 
-            color={selectedTab === "home" ? "#F3971D" : "#999"} 
-          />
-        </Pressable>
+          <View style={styles.tabsContainer}>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() => setSelectedTab("home")}
+            >
+              {selectedTab === "home" && <View style={styles.selected} />}
+              <Ionicons
+                name="home-outline"
+                size={28}
+                color={selectedTab === "home" ? "#F3971D" : "#999"}
+              />
+            </Pressable>
 
-        <Pressable 
-          style={styles.iconButton} 
-          onPress={() => setSelectedTab("settings")}
-        >
-          {selectedTab === "settings" && <View style={styles.selected} />}
-          <Ionicons 
-            name="settings-outline" 
-            size={28} 
-            color={selectedTab === "settings" ? "#F3971D" : "#999"} 
-          />
-        </Pressable>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() => setSelectedTab("settings")}
+            >
+              {selectedTab === "settings" && <View style={styles.selected} />}
+              <Ionicons
+                name="settings-outline"
+                size={28}
+                color={selectedTab === "settings" ? "#F3971D" : "#999"}
+              />
+            </Pressable>
 
-        <Pressable 
-          style={styles.iconButton} 
-          onPress={() => setSelectedTab("chatbot")}
-        >
-          {selectedTab === "chatbot" && <View style={styles.selected} />}
-          <MaterialCommunityIcons 
-            name="robot-outline" 
-            size={28} 
-            color={selectedTab === "chatbot" ? "#F3971D" : "#999"} 
-          />
-        </Pressable>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() => setSelectedTab("chatbot")}
+            >
+              {selectedTab === "chatbot" && <View style={styles.selected} />}
+              <MaterialCommunityIcons
+                name="robot-outline"
+                size={28}
+                color={selectedTab === "chatbot" ? "#F3971D" : "#999"}
+              />
+            </Pressable>
 
-        <Pressable 
-          style={styles.iconButton} 
-          onPress={() => setSelectedTab("notifications")}
-        >
-          {selectedTab === "notifications" && <View style={styles.selected} />}
-          <Ionicons 
-            name="notifications-outline" 
-            size={28} 
-            color={selectedTab === "notifications" ? "#F3971D" : "#999"} 
-          />
-        </Pressable>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() => setSelectedTab("notifications")}
+            >
+              {selectedTab === "notifications" && (
+                <View style={styles.selected} />
+              )}
+              <Ionicons
+                name="notifications-outline"
+                size={28}
+                color={selectedTab === "notifications" ? "#F3971D" : "#999"}
+              />
+            </Pressable>
 
-        <Pressable 
-          style={styles.iconButton} 
-          onPress={() => setSelectedTab("profile")}
-        >
-          {selectedTab === "profile" && <View style={styles.selected} />}
-          <FontAwesome5 
-            name="user-alt" 
-            size={24} 
-            color={selectedTab === "profile" ? "#F3971D" : "#999"} 
-          />
-        </Pressable>
-      </View>
-      <StatusBar style="white" />
-    </View>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() => setSelectedTab("profile")}
+            >
+              {selectedTab === "profile" && <View style={styles.selected} />}
+              <FontAwesome5
+                name="user-alt"
+                size={24}
+                color={selectedTab === "profile" ? "#F3971D" : "#999"}
+              />
+            </Pressable>
+          </View>
+          <StatusBar style="white" backgroundColor={"#00A693"}/>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

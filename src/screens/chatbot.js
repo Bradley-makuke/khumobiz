@@ -7,7 +7,7 @@ export default function Chatbot() {
   return (
     <View style={styles.container}>
       <Text>chatbot</Text>
-      <StatusBar style="auto" />
+      
     </View>
   );
 }

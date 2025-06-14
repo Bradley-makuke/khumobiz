@@ -7,7 +7,7 @@ export default function Settings() {
   return (
     <View style={styles.container}>
       <Text>settings</Text>
-      <StatusBar style="auto" />
+      
     </View>
   );
 }

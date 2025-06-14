@@ -144,7 +144,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       {renderContent()}
-      <StatusBar style="white" />
+      <StatusBar style="auto" />
     </View>
   );
 }

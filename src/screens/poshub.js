@@ -1,30 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { DataTable } from "utility-custom-ui";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 const POSHub = () => {
+  const [activePaymentMethod, setActivePaymentMethod] = useState("QR");
+
+  const renderPaymentSection = () => {
+    switch (activePaymentMethod) {
+      case "QR":
+        return (
+          <View style={styles.section}>
+            <TouchableOpacity
+              style={[styles.option, { width: "100%", height: "50%" }]}
+            >
+              <Text style={styles.optionText}>QR</Text>
+              <MaterialCommunityIcons name="qrcode-scan" size={130} color="#F3971D" />
+            </TouchableOpacity>
+          </View>
+        );
+      case "Virtual Card":
+        return (
+          <View style={styles.section}>
+            <TouchableOpacity
+              style={[styles.option, { width: "100%", height: "50%" }]}
+            >
+              <Text style={styles.optionText}>Virtual Card</Text>
+              <MaterialCommunityIcons name="credit-card" size={130} color="#F3971D" />
+            </TouchableOpacity>
+          </View>
+        );
+      case "Mobile Money":
+        return (
+          <View style={styles.section}>
+            <TouchableOpacity
+              style={[styles.option, { width: "100%", height: "50%" }]}
+            >
+              <Text style={styles.optionText}>Mobile Money</Text>
+              <MaterialCommunityIcons name="cellphone" size={130} color="#F3971D" />
+            </TouchableOpacity>
+          </View>
+        );
+      case "E-Wallet":
+        return (
+          <View style={styles.section}>
+            <TouchableOpacity
+              style={[styles.option, { width: "100%", height: "50%" }]}
+            >
+              <Text style={styles.optionText}>E-Wallet</Text>
+              <MaterialCommunityIcons name="wallet" size={130} color="#F3971D" />
+            </TouchableOpacity>
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.container}>
       <Text style={styles.header}>POS</Text>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Activation</Text>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity 
+            style={styles.option} 
+            onPress={() => setActivePaymentMethod("QR")}
+          >
             <Text style={styles.optionText}>QR</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity 
+            style={styles.option} 
+            onPress={() => setActivePaymentMethod("Virtual Card")}
+          >
             <Text style={styles.optionText}>Virtual Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity 
+            style={styles.option} 
+            onPress={() => setActivePaymentMethod("Mobile Money")}
+          >
             <Text style={styles.optionText}>Mobile Money</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity 
+            style={styles.option} 
+            onPress={() => setActivePaymentMethod("E-Wallet")}
+          >
             <Text style={styles.optionText}>E-Wallet</Text>
           </TouchableOpacity>
         </View>
@@ -50,23 +117,19 @@ const POSHub = () => {
           height={"fit-content"}
         />
       </View>
-      {/* Pay Section */}
-      <View style={styles.section}>
-        <TouchableOpacity
-          style={[styles.option, { width: "100%", height: "50%" }]}
-        >
-          <Text style={styles.optionText}>QR</Text>
-          <MaterialCommunityIcons name="qrcode-scan" size={130} color="#F3971D" />
-        </TouchableOpacity>
-      </View>
-    </View>
+      
+      {/* Pay Section - Dynamic based on selection */}
+      {renderPaymentSection()}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContainer: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  container: {
     padding: 16,
   },
   header: {
