@@ -12,8 +12,6 @@ const POSHub = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>POS</Text>
-
-      {/* Activation Section */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Activation</Text>
         <View style={styles.optionsContainer}>

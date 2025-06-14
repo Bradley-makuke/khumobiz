@@ -4,11 +4,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useState } from "react";
-import Home from "./src/home";
-import Settings from "./src/settings";
-import Chatbot from "./src/chatbot";
-import Notifications from "./src/notification";
-import Profile from "./src/profile";
+import Home from "./home";
+import Settings from "./settings";
+import Chatbot from "./chatbot";
+import Notifications from "./notification";
+import Profile from "./profile";
 
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState("home");
