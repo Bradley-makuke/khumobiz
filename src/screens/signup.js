@@ -44,8 +44,9 @@ export default function Signup() {
                 email: email,
                 password: password,
                 options: {
+                    emailRedirectTo: 'khumobiz://auth/callback',
                     data: {
-                        username: username, // Add username to user metadata
+                        username: username, 
                     }
                 }
             });

@@ -1,0 +1,11 @@
+package.json
+package-lock.json
+App.js
+node_modules/
+// .gitignore
+.env*.local
+.env
+.expo
+env
+.env
+index.js

@@ -1,6 +1,12 @@
 {
   "expo": {
     "name": "khumobiz",
+    "scheme": "khumobiz",
+    "deepLinking": "true",
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "slug": "khumobiz",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,10 +26,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.dante629.khumobiz"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "513107ef-dd60-4765-a2f5-c2e598690693"
+      }
     }
   }
 }
