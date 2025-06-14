@@ -7,6 +7,8 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Platform,
+    AppState,
+    Alert // Added missing Alert import
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
@@ -15,6 +17,9 @@ import {supabase} from '../utils/supabase';
 
 export default function Login() {
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     AppState.addEventListener('change', (state) => {
         if (state === 'active'){
@@ -24,6 +29,35 @@ export default function Login() {
             supabase.auth.stopAutoRefresh()
         }
     })
+
+    async function signInWithEmail() {
+        try{
+            // Basic validation
+            if (!email || !password) {
+                Alert.alert("Error", "Please fill in all fields.");
+                return;
+            }
+
+            setLoading(true)
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email.trim(), 
+                password: password,
+            })
+            
+            if (error) {
+                Alert.alert("Login Failed", error.message)
+            } else {
+                Alert.alert("Login Successful", "Welcome back!")
+                navigation.replace('dashboard')
+            }
+        }
+        catch (error){
+            Alert.alert("Unexpected Error", error.message || "Something went wrong");
+        }
+        finally{
+            setLoading(false);
+        }
+    }
     
     return (
         <KeyboardAvoidingView
@@ -49,35 +83,43 @@ export default function Login() {
 
                     <TextInput
                         style={inputStyle}
-                        placeholder="Username"
+                        placeholder="Email"
                         placeholderTextColor={'#ffffff'}
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
+                        keyboardType="email-address"
+                        autoCapitalize="none" 
                     />
 
                     <TextInput
                         style={inputStyle}
                         placeholder="Password"
                         placeholderTextColor={'#ffffff'}
+                        value={password}
                         secureTextEntry
+                        autoCapitalize={'none'}
+                        onChangeText={(text) => setPassword(text)}
                     />
 
                     {/* Login Button */}
                     <Pressable
                         style={{
-                            backgroundColor: '#ffd700',
+                            backgroundColor: loading ? '#cccccc' : '#ffd700',
                             padding: 10,
                             borderRadius: 9,
                             width: 290,
                             alignItems: 'center',
                             marginTop: 10,
                         }}
-                        onPress={() => alert('Login button pressed')}
+                        onPress={() => signInWithEmail()}
+                        disabled={loading}
                     >
                         <Text style={{
                             color: '#000000',
                             fontSize: 16,
                             fontWeight: 'bold',
                         }}>
-                            Login
+                            {loading ? 'Logging in...' : 'Login'} {/* Show loading text */}
                         </Text>
                     </Pressable>
 
