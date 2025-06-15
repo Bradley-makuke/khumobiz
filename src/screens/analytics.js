@@ -4,7 +4,7 @@ import { LineChart, BarChart, PieChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 import axios from 'axios';
 
-const API_URL = 'http://192.168.110.65:5000'; 
+const API_URL = 'http://172.31.19.226:3000'; 
 const screenWidth = Dimensions.get('window').width;
 
 export default function Analytics({ goBack, businessId = 12 }) {
