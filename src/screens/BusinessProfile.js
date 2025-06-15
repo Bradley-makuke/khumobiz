@@ -1,7 +1,8 @@
+
 import {Image, Pressable, View, Text, TextInput} from "react-native";
 import {useState} from "react";
 import { useNavigation } from "@react-navigation/native";
-import supabase from "./supabaseClient";
+import {supabase} from "../utils/supabase";
 import{Modal, ActivityIndicator} from "react-native";
 
 
@@ -16,44 +17,69 @@ export default function BusinessProfile() {
 
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [error, setError] = useState('');
 
   const handleVerify = async () => {
+  if (!businessName.trim() || !regNumber.trim() || !omangNumber.trim()) {
+    setError('Please fill in all required fields');
+    return;
+  }
 
-    try{
+  try {
     setLoading(true);
+    setError('');
+
+    console.log('Searching for business with:');
+    console.log('Business Name:', businessName);
+    console.log('Registration Number:', regNumber);
 
     // Query business table
     const { data: business, error: businessError } = await supabase
-      .from("business")
+      .from("Business")
       .select("*")
       .eq("business_name", businessName)
       .eq("bs_registration_number", regNumber)
       .maybeSingle();
 
+    console.log('Business query result:', business);
+    console.log('Business query error:', businessError);
+
+    if (businessError) throw businessError;
+
     // Query profile table
     const { data: profile, error: profileError } = await supabase
-      .from("profile")
+      .from("Profile")
       .select("*")
       .eq("id_number", omangNumber)
       .maybeSingle();
 
-    setLoading(false);
+    console.log('Profile query result:', profile);
+    console.log('Profile query error:', profileError);
 
-    if (business && profile && !businessError && !profileError) {
+    if (profileError) throw profileError;
+
+    if (business || profile) {
       setVerified(true);
       setTimeout(() => {
-        navigation.navigate("signup");
+        navigation.navigate('signup', {
+          businessData: business,
+          profileData: profile, 
+          companyEmail
+        });
       }, 1000);
     } else {
-      alert("Credentials not found. Please check your input.");
+      console.log('Verification failed - Business:', business, 'Profile:', profile);
+      setError("Credentials not found. Please check your input.");
     }
-    }
-    catch (err) {
-  setLoading(false);
-  console.error("Error verifying credentials:", err);
-  alert("Something went wrong.");
-}
-  };
+  } catch (err) {
+    console.error("Error verifying credentials:", err);
+    setError(err.message || "An error occurred while verifying credentials. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  
 
   
     return(
@@ -64,7 +90,7 @@ export default function BusinessProfile() {
             alignItems: "center",
         }}>
             <Image 
-                source={require("../assets/logo2.png")}
+                source={require("../../assets/logo2.png")}
                 style={{
                     width: 300,
                     height: 300,
@@ -87,6 +113,7 @@ export default function BusinessProfile() {
                 placeholder="Company Email"
                 placeholderTextColor={'#ffffff'}
                 onChangeText={setCompanyEmail}
+                autoCapitalize={'none'}
 
             />
 
@@ -111,7 +138,7 @@ export default function BusinessProfile() {
                 style={buttonStyle}
                 onPress={handleVerify}
             >
-                <Text style={buttonTextStyle}>Next</Text>
+              <Text style={buttonTextStyle}>Next</Text>
             </Pressable>
 
             {/* Modal for loading and verifying */}

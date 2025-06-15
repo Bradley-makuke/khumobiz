@@ -125,7 +125,7 @@ export default function Login() {
                     {/* Signup Redirect */}
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Text style={{ color: '#ffffff', textAlign: "center", fontSize: 18, textDecorationLine: "underline"}}>Don't have an account? </Text>
-                        <Pressable onPress={() => navigation.replace('signup')}>
+                        <Pressable onPress={() => navigation.replace('BusinessProfile')}>
                             <Text style={{ color: '#ffd700', fontWeight: 'bold', fontSize: 18,  }}>Sign up</Text>
                         </Pressable>
                     </View>
