@@ -26,8 +26,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-<<<<<<< Updated upstream
-    
       <SafeAreaView style={{ flex: 1 }}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Onboarding1">
@@ -51,26 +49,10 @@ export default function App() {
               component={Dashboard} 
               options={{ headerShown: false }} 
             />
+            <Stack.Screen name="BusinessProfile" component={BusinessProfile}/>
           </Stack.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" backgroundColor='#00A693' />
       </SafeAreaView>
-   
-=======
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Onboarding1"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Onboarding1" component={Onboarding1} />
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="signup" component={Signup} />
-        <Stack.Screen name="dashboard" component={Dashboard} />
-        <Stack.Screen name="BusinessProfile" component={BusinessProfile}/>
-      </Stack.Navigator>
-    </NavigationContainer>
->>>>>>> Stashed changes
   );
 }
