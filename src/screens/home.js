@@ -118,7 +118,7 @@ export default function Home() {
                     onPress={() => setCurrentView("BNPL")}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.bottomCardTitle}>ADD MORE</Text>
+                    <Text style={styles.bottomCardTitle}>BNPL</Text>
                     <AntDesign name="pluscircle" size={44} color="#F3971D" />
                   </TouchableOpacity>
                   <View style={styles.emptyCard}></View>
