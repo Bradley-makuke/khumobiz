@@ -7,7 +7,7 @@ export default function Profile() {
   return (
     <View style={styles.container}>
       <Text>profile</Text>
-      <StatusBar style="auto" />
+      
     </View>
   );
 }

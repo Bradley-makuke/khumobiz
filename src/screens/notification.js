@@ -7,7 +7,7 @@ export default function Notifications() {
   return (
     <View style={styles.container}>
       <Text>notifications</Text>
-      <StatusBar style="auto" />
+    
     </View>
   );
 }
@@ -15,7 +15,7 @@ export default function Notifications() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',

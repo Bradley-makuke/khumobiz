@@ -1,0 +1,84 @@
+# backend.py
+from flask import Flask, jsonify
+import pandas as pd
+from supabase import create_client
+from dotenv import load_dotenv
+import os
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
+# Supabase setup
+load_dotenv()
+supabase = create_client(os.getenv("EXPO_PUBLIC_SUPABASE_URL"), 
+                        os.getenv("EXPO_PUBLIC_SUPABASE_SERVICE_ROLE_KEY"))
+
+@app.route('/api/analytics/<int:business_id>', methods=['GET'])
+def get_analytics(business_id):
+    try:
+        # Fetch data from Supabase
+        response = supabase.table("Sales").select("*").eq("business_id", business_id).execute()
+        sales_data = response.data
+        
+        if not sales_data:
+            return jsonify({"error": "No data found"}), 404
+
+        # Process data
+        df = pd.DataFrame(sales_data)
+        df = df.dropna(subset=["amount", "date"])
+        df["amount"] = pd.to_numeric(df["amount"])
+        df["date"] = pd.to_datetime(df["date"])
+
+        # Monthly sales data
+        monthly = df.groupby(df["date"].dt.to_period("M"))["amount"].sum()
+        monthly_sales = {
+            "labels": monthly.index.strftime('%b %Y').tolist(),
+            "data": monthly.values.tolist()
+        }
+
+        # Top products
+        top_products = df.groupby("product_name")["amount"].sum().nlargest(5)
+        products_data = {
+            "labels": top_products.index.tolist(),
+            "data": top_products.values.tolist()
+        }
+
+        # Payment methods
+        payments = df.groupby("payment_method")["amount"].sum()
+        payment_data = [{
+            "name": name,
+            "value": float(value),
+            "color": get_color(i)
+        } for i, (name, value) in enumerate(payments.items())]
+
+        return jsonify({
+            "metrics": {
+                "total_revenue": float(df["amount"].sum()),
+                "conversion_rate": calculate_conversion_rate(df),
+                "top_product": top_products.index[0],
+                "top_payment": payments.idxmax()
+            },
+            "charts": {
+                "monthly_sales": monthly_sales,
+                "top_products": products_data,
+                "payment_methods": payment_data
+            }
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def calculate_conversion_rate(df):
+    if "customer_id" not in df.columns:
+        return 0
+    unique_visits = df["customer_id"].nunique()
+    unique_buyers = df["customer_id"].nunique()
+    return round((unique_buyers / unique_visits) * 100, 2) if unique_visits else 0
+
+def get_color(index):
+    colors = ["#00A693", "#00897B", "#00796B", "#00695C", "#004D40"]
+    return colors[index % len(colors)]
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

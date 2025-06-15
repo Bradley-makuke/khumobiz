@@ -22,6 +22,7 @@ import POSHub from "./poshub";
 import Analytics from "./analytics";
 import Loans from "./loans";
 import AddMore from "./addmore";
+import BNPL from "./BNPL";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState("home");
@@ -114,7 +115,7 @@ export default function Home() {
                 <View style={styles.row}>
                   <TouchableOpacity
                     style={[styles.bottomCard, styles.shadow]}
-                    onPress={() => setCurrentView("addmore")}
+                    onPress={() => setCurrentView("BNPL")}
                     activeOpacity={0.7}
                   >
                     <Text style={styles.bottomCardTitle}>ADD MORE</Text>
@@ -134,8 +135,8 @@ export default function Home() {
         return <Analytics goBack={() => setCurrentView("home")} />;
       case "loans":
         return <Loans goBack={() => setCurrentView("home")} />;
-      case "addmore":
-        return <AddMore goBack={() => setCurrentView("home")} />;
+      case "BNPL":
+        return <BNPL goBack={() => setCurrentView("home")} />;
       default:
         return null;
     }
