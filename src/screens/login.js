@@ -8,7 +8,7 @@ import {
     KeyboardAvoidingView,
     Platform,
     AppState,
-    Alert // Added missing Alert import
+    Alert 
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
@@ -47,7 +47,6 @@ export default function Login() {
             if (error) {
                 Alert.alert("Login Failed", error.message)
             } else {
-                Alert.alert("Login Successful", "Welcome back!")
                 navigation.replace('dashboard')
             }
         }
